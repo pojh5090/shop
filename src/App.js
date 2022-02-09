@@ -17,7 +17,7 @@ function App() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link> <Link to="/">Home</Link> </Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link> <Link to="/detail">Detail</Link> </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
