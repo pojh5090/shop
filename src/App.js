@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import Data from './data.js';
 import Detail from './Detail.js';
+import axios from 'axios';
 import './App.css';
 
 import { Link, Route, Switch } from 'react-router-dom';
 
 function App() {
   let [shoes, shoes변경] = useState(Data);   // 이렇게 불러옴!
+  let [재고, 재고변경] = useState([10, 11, 12]);
 
   return (
     <div className="App">
@@ -18,7 +20,7 @@ function App() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link as={Link} to="/">Home</Nav.Link>
-            <Nav.Link> <Link to="/detail">Detail</Link> </Nav.Link>
+            <Nav.Link as={Link} to="/detail">Detail</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
@@ -50,11 +52,21 @@ function App() {
                 })
               }
             </div>
+            <button className="btn btn-primary" onClick={() => {
+              // axios.post('서버url', { id: 'kjh', pw: 1234});
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+                .then((result) => {
+                  shoes변경([...shoes, ...result.data]);     //이렇게 ...쓰는건 대괄호를 벗기는 것!  [ {}, {} , {} ] 
+                })
+                .catch(() => {
+                  console.log('실패했어요')
+                })
+            }}>더보기</button>
           </div>
         </Route>
 
         <Route exact path="/detail/:id">
-          <Detail shoes={shoes} />
+          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
         </Route>
         {/* <Route path="/어쩌구" component={Modal}></Route> */}
 
@@ -72,12 +84,10 @@ function App() {
 
 function Card(props) {
   return (
-    <div>
-      <div className="col-md-4">
-        <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="100%" />
-        <h4>{props.shoes.title}</h4>
-        <p>{props.shoes.content} & {props.shoes.price}</p>
-      </div>
+    <div className="col-md-4">
+      <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="100%" />
+      <h4>{props.shoes.title}</h4>
+      <p>{props.shoes.content} & {props.shoes.price}</p>
     </div>
   )
 }

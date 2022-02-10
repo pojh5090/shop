@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components'
@@ -20,6 +21,9 @@ function Detail(props) {
 
     // 컴포넌트가 등장, 업데이트 될 때 실행함 (2가지 경우)
     useEffect(() => {
+        //딱 처음 로딩 했을 때만 , axios 요청하고싶으면 여기에 쓰면 됨!
+        //axios.get(); //이렇게 안에 사용 가능
+
         let 타이머 = setTimeout(() => { alert변경(false) }, 2000);
         return () => { clearTimeout(타이머) }
     }, []);
@@ -53,7 +57,8 @@ function Detail(props) {
                     <h4 className="pt-5">{해당상품.title}</h4>
                     <p>{해당상품.content}</p>
                     <p>{해당상품.price}</p>
-                    <button className="btn btn-danger">주문하기</button>
+                    <Info 재고={props.재고}></Info>
+                    <button className="btn btn-danger" onClick={() => { props.재고변경([9, 11, 12]) }}>주문하기</button>
                     <button className="btn btn-danger" onClick={() => {
                         // history.goBack();
                         history.push('/');
@@ -61,6 +66,12 @@ function Detail(props) {
                 </div>
             </div>
         </div>
+    )
+}
+
+function Info(props) {
+    return (
+        <p>재고 : {props.재고[0]}</p>
     )
 }
 
