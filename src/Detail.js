@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 import styled from "styled-components";
+import { connect } from 'react-redux';
 import "./Detail.scss";
 import { 재고context } from "./App.js";
 
@@ -22,9 +23,8 @@ function Detail(props) {
   let [inputData, inputData변경] = useState("");
 
   let [누른탭, 누른탭변경] = useState(0);
-  let[스위치, 스위치변경] = useState(false);
+  let [스위치, 스위치변경] = useState(false);
   let 재고 = useContext(재고context);
-  console.log(재고);
 
   // 컴포넌트가 등장, 업데이트 될 때 실행함 (2가지 경우)
   useEffect(() => {
@@ -82,6 +82,8 @@ function Detail(props) {
             className="btn btn-danger"
             onClick={() => {
               props.재고변경([9, 11, 12]);
+              props.dispatch({type: '항목추가', payload: {id:2, name: '새상품', quan: 1}});
+              history.push('/cart');
             }}
           >
             주문하기
@@ -137,4 +139,10 @@ function Info(props) {
   return <p>재고 : {props.재고[2]}</p>;
 }
 
-export default Detail;
+function 함수명(state){
+    return {
+        state : state.reducer,
+        alert열였니 : state.reducer2
+    }
+}
+export default connect(함수명)(Detail)

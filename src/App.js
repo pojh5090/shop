@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import Data from './data.js';
 import Detail from './Detail.js';
+import Cart from './Cart.js';
 import axios from 'axios';
 import './App.css';
 
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -78,10 +79,15 @@ function App() {
         </Route>
         {/* <Route path="/어쩌구" component={Modal}></Route> */}
 
-        <Route path="/:id">
+        {/* <Route path="/:id">
           <div>아무거나 적었을 때 이거 보여주삼</div>
-        </Route>
+        </Route> */}
         {/* 위에 Route는 어떤 url이던 다 보임!(/뒤에 어떤 문자가 오던지 보여줘~) 리엑트 라우터가 원래 그러니까 ..*/}
+
+        <Route path="/cart">
+            <Cart></Cart>
+        </Route>
+
 
       </Switch>
 
