@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import Data from './data.js';
 import Detail from './Detail.js';
@@ -7,6 +7,8 @@ import axios from 'axios';
 import './App.css';
 
 import { Link, Route, Switch } from 'react-router-dom';
+
+export let 재고context = React.createContext();
 
 function App() {
   let [shoes, shoes변경] = useState(Data);   // 이렇게 불러옴!
@@ -45,13 +47,17 @@ function App() {
             </p>
           </div>
           <div className="container">
-            <div className="row">
-              {
-                shoes.map((a, i) => {
-                  return <Card shoes={shoes[i]} i={i} key={i} />
-                })
-              }
-            </div>
+
+            <재고context.Provider value={재고}>
+              <div className="row">
+                {
+                  shoes.map((a, i) => {
+                    return <Card shoes={shoes[i]} i={i} key={i} />
+                  })
+                }
+              </div>
+            </재고context.Provider>
+
             <button className="btn btn-primary" onClick={() => {
               // axios.post('서버url', { id: 'kjh', pw: 1234});
               axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -66,7 +72,9 @@ function App() {
         </Route>
 
         <Route exact path="/detail/:id">
-          <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
+          <재고context.Provider value={재고}>
+            <Detail shoes={shoes} 재고={재고} 재고변경={재고변경} />
+          </재고context.Provider>
         </Route>
         {/* <Route path="/어쩌구" component={Modal}></Route> */}
 
@@ -88,8 +96,15 @@ function Card(props) {
       <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="100%" />
       <h4>{props.shoes.title}</h4>
       <p>{props.shoes.content} & {props.shoes.price}</p>
+      <Test></Test>
     </div>
   )
 }
+
+function Test() {
+  let 재고 = useContext(재고context);  //( )안에는 범위를 적어주는 것.
+  return <p>재고 : {재고}</p>
+}
+
 
 export default App;
