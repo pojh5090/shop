@@ -27,19 +27,31 @@ let 기본state = [
 //데이터 수정하기
 function reducer(state = 기본state, 액션){
   if(액션.type === '항목추가') {
-    let copy = [...state];
-    copy.push(액션.payload);  //그대로 집어넣어주세요
-    return copy
+    // state안에 id : 액션.데이터 인것이 있나?
+    let found = state.findIndex((a)=> { return a.id === 액션.데이터.id});
+
+    if(found >= 0) {
+      //수량 추가만 해주세요
+      let copy = [...state];
+      copy[found].quan++;
+      return copy;
+    
+    } else {
+      let copy = [...state];
+      copy.push(액션.데이터);  //그대로 집어넣어주세요
+      return copy
+    }
   }
 
   if( 액션.type === '수량증가' ){
     let copy = [...state];
-    copy[0].quan++
+    console.log(copy);
+    copy[액션.데이터].quan++
     return copy;
   } 
   if( 액션.type === '수량감소' ){
     let copy = [...state];
-    copy[0].quan--;
+    copy[액션.데이터].quan--;
     return copy;
   } else {
     return state;
